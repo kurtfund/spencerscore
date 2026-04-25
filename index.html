@@ -529,11 +529,8 @@ function startLoop() {
     if(vidDur <= 0) return;
     const d = targetT - curT;
     if(Math.abs(d) > 0.001) { 
-      curT += d * 0.05; // Lower interpolation for smoother motion
-      try { 
-        if (video.fastSeek) video.fastSeek(curT); 
-        else video.currentTime = curT; 
-      } catch(e){} 
+      curT += d * 0.25; // Faster interpolation
+      try { video.currentTime = curT; } catch(e){} 
     }
   }
   tick();
