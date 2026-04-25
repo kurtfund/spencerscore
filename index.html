@@ -262,6 +262,44 @@ footer {
 /* ── REVEALS ── */
 .rev-dark { opacity: 0; transform: translateY(24px); }
 .rev-light { opacity: 0; transform: translateY(24px); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  #nav { padding: 12px 20px; }
+  #nav.compact { padding: 8px 20px; }
+  .nav-links { display: none; } /* Hide links on mobile for simplicity, or add a hamburger later */
+  .nav-cta { padding: 12px 20px; font-size: 13px; }
+  .nav-logo img { height: 44px !important; }
+  
+  #hero { height: 100svh; } /* Use svh for mobile browsers */
+  .hero-body {
+    grid-template-columns: 1fr;
+    bottom: 60px; left: 24px; right: 24px;
+    gap: 32px;
+  }
+  #htitle { font-size: 42px; line-height: 1.1; }
+  .hero-desc { font-size: 14px; margin-bottom: 24px; }
+  
+  #intro { padding: 80px 24px; grid-template-columns: 1fr; gap: 48px; }
+  #services { grid-template-columns: 1fr; }
+  .svc { min-height: 400px; padding: 64px 24px; }
+  .svc:first-child { border-right: none; border-bottom: 1px solid var(--white-dim); }
+  
+  .credits-top { grid-template-columns: 1fr; gap: 32px; }
+  .credits-grid { grid-template-columns: 1fr; }
+  .credit-card { min-height: auto; padding: 32px 24px; }
+  
+  #orch { grid-template-columns: 1fr; padding: 80px 24px; gap: 40px; }
+  .orch-num { font-size: 80px; }
+  
+  .logos-row { grid-template-columns: 1fr; }
+  .logo-item { padding: 20px 0; }
+  
+  .world-top { grid-template-columns: 1fr; gap: 32px; }
+  #map-wrap { aspect-ratio: 1/1; }
+  
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+}
 </style>
 </head>
 <body>
@@ -518,15 +556,28 @@ function initVid() { vidDur = video.duration || 0; video.pause(); }
 video.addEventListener('loadedmetadata', initVid);
 if(video.readyState >= 1) initVid();
 
-ScrollTrigger.create({
-  trigger: '#hero', start: 'top top', end: '+=75%', pin: true,
-  onUpdate: s => { 
-    if(!vidDur) vidDur = video.duration;
-    if(vidDur > 0) {
-      const t = s.progress * vidDur;
-      video.currentTime = t;
+const mm = gsap.matchMedia();
+
+mm.add("(min-width: 769px)", () => {
+  // Desktop logic
+  ScrollTrigger.create({
+    trigger: '#hero', start: 'top top', end: '+=75%', pin: true,
+    onUpdate: s => { 
+      if(!vidDur) vidDur = video.duration;
+      if(vidDur > 0) video.currentTime = s.progress * vidDur; 
     }
-  }
+  });
+});
+
+mm.add("(max-width: 768px)", () => {
+  // Mobile logic: Shorten pin or disable if needed. Let's keep it but make it snappier.
+  ScrollTrigger.create({
+    trigger: '#hero', start: 'top top', end: '+=50%', pin: true,
+    onUpdate: s => { 
+      if(!vidDur) vidDur = video.duration;
+      if(vidDur > 0) video.currentTime = s.progress * vidDur; 
+    }
+  });
 });
 video.play().then(() => { setTimeout(() => { video.pause(); video.currentTime = 0; curT = 0; }, 150); }).catch(()=>{});
 
