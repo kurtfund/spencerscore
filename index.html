@@ -151,7 +151,7 @@ body::before {
 #photo-grid { background: var(--dark); padding: 80px 56px; overflow: hidden; border-top: 1px solid var(--white-dim); }
 .pg-track { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; }
 .pg-track::-webkit-scrollbar { display: none; }
-.pg-track img { height: 320px; width: auto; object-fit: cover; border-radius: 16px; opacity: 0.85; transition: opacity 0.4s, transform 0.4s; cursor: pointer; }
+.pg-track img { height: 320px; width: auto; object-fit: cover; border-radius: 16px; opacity: 0.85; transition: opacity 0.4s, transform 0.4s; cursor: pointer; flex-shrink: 0; }
 .pg-track img:hover { opacity: 1; transform: scale(1.02); }
 
 /* Glowing Map Elements */
@@ -296,7 +296,7 @@ footer {
   .logo-item { padding: 20px 0; }
   
   .world-top { grid-template-columns: 1fr; gap: 32px; }
-  #map-wrap { aspect-ratio: 1/1; }
+  #map-wrap { aspect-ratio: 1/1.5; height: 500px; } /* Taller map on mobile */
   
   footer { flex-direction: column; gap: 20px; text-align: center; }
 }
@@ -561,7 +561,7 @@ const mm = gsap.matchMedia();
 mm.add("(min-width: 769px)", () => {
   // Desktop logic
   ScrollTrigger.create({
-    trigger: '#hero', start: 'top top', end: '+=75%', pin: true,
+    trigger: '#hero', start: 'top top', end: '+=37.5%', pin: true,
     onUpdate: s => { 
       if(!vidDur) vidDur = video.duration;
       if(vidDur > 0) video.currentTime = s.progress * vidDur; 
@@ -570,9 +570,9 @@ mm.add("(min-width: 769px)", () => {
 });
 
 mm.add("(max-width: 768px)", () => {
-  // Mobile logic: Shorten pin or disable if needed. Let's keep it but make it snappier.
+  // Mobile logic
   ScrollTrigger.create({
-    trigger: '#hero', start: 'top top', end: '+=50%', pin: true,
+    trigger: '#hero', start: 'top top', end: '+=25%', pin: true,
     onUpdate: s => { 
       if(!vidDur) vidDur = video.duration;
       if(vidDur > 0) video.currentTime = s.progress * vidDur; 
