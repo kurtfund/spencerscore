@@ -514,7 +514,7 @@ const video = document.getElementById('hero-video');
 let vidDur = 0, scrubSpeed = TWEAK_DEFAULTS.scrubSpeed;
 let targetT = 0, curT = 0, rafId = null;
 
-function initVid() { vidDur = video.duration || 0; video.pause(); if(!rafId) startLoop(); }
+function initVid() { vidDur = video.duration || 0; video.pause(); }
 video.addEventListener('loadedmetadata', initVid);
 if(video.readyState >= 1) initVid();
 
@@ -522,22 +522,12 @@ ScrollTrigger.create({
   trigger: '#hero', start: 'top top', end: '+=75%', pin: true,
   onUpdate: s => { 
     if(!vidDur) vidDur = video.duration;
-    if(vidDur > 0) targetT = s.progress * vidDur; 
-  }
-});
-
-function startLoop() {
-  function tick() {
-    rafId = requestAnimationFrame(tick);
-    if(vidDur <= 0) return;
-    const d = targetT - curT;
-    if(Math.abs(d) > 0.001) { 
-      curT += d * 0.25; // Faster interpolation
-      try { video.currentTime = curT; } catch(e){} 
+    if(vidDur > 0) {
+      const t = s.progress * vidDur;
+      video.currentTime = t;
     }
   }
-  tick();
-}
+});
 video.play().then(() => { setTimeout(() => { video.pause(); video.currentTime = 0; curT = 0; }, 150); }).catch(()=>{});
 
 // ── NAV ──
