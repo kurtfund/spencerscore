@@ -520,7 +520,10 @@ if(video.readyState >= 1) initVid();
 
 ScrollTrigger.create({
   trigger: '#hero', start: 'top top', end: '+=75%', pin: true,
-  onUpdate: s => { if(vidDur > 0) targetT = s.progress * vidDur; }
+  onUpdate: s => { 
+    if(!vidDur) vidDur = video.duration;
+    if(vidDur > 0) targetT = s.progress * vidDur; 
+  }
 });
 
 function startLoop() {
