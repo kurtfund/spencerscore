@@ -50,12 +50,12 @@ body::before {
 /* ── NAV ── */
 #nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  padding: 28px 56px; display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px; display: flex; align-items: center; justify-content: space-between;
   transition: padding .4s var(--ease), background .4s, border-color .4s;
   border-bottom: 1px solid transparent;
 }
 #nav.compact {
-  padding: 16px 56px; background: rgba(19,18,16,.93);
+  padding: 10px 48px; background: rgba(19,18,16,.93);
   backdrop-filter: blur(20px); border-color: var(--white-dim);
 }
 .nav-logo { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--white); text-decoration: none; letter-spacing: 0.02em; }
@@ -268,7 +268,7 @@ footer {
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nav-logo" style="display:flex; align-items:center;"><img src="uploads/spencer-logo-transparent.png" alt="Spencer Scoring & Stage" style="height: 120px; filter: invert(1); opacity: 0.9;"></a>
+  <a href="#" class="nav-logo" style="display:flex; align-items:center;"><img src="uploads/spencer-logo-transparent.png" alt="Spencer Scoring & Stage" style="height: 64px; filter: invert(1); opacity: 0.9;"></a>
   <ul class="nav-links">
     <li><a href="#intro">About</a></li>
     <li><a href="#services">Services</a></li>
@@ -506,7 +506,7 @@ gsap.registerPlugin(ScrollTrigger);
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accentColor": "#8a9a88",
   "rhythm": "cream",
-  "scrubSpeed": 1.5
+  "scrubSpeed": 1.0
 }/*EDITMODE-END*/;
 
 // ── VIDEO SCRUB (RAF lerp) ──
@@ -519,8 +519,8 @@ video.addEventListener('loadedmetadata', initVid);
 if(video.readyState >= 1) initVid();
 
 ScrollTrigger.create({
-  trigger: '#hero', start: 'top top', end: '+=85%', pin: true,
-  onUpdate: s => { if(vidDur > 0) targetT = Math.min(s.progress * vidDur * scrubSpeed, vidDur); }
+  trigger: '#hero', start: 'top top', end: '+=100%', pin: true,
+  onUpdate: s => { if(vidDur > 0) targetT = s.progress * vidDur; }
 });
 
 function startLoop() {
