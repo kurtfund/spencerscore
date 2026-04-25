@@ -147,11 +147,10 @@ body::before {
 .svc-list-item { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white-muted); padding-left: 16px; position: relative; }
 .svc-list-item::before { content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 1px; background: var(--gold); }
 
-/* ── PHOTO GRID (Side Scroller) ── */
-#photo-grid { background: var(--dark); padding: 0; overflow: hidden; border-top: 1px solid var(--white-dim); }
-.pg-container { height: 100vh; display: flex; align-items: center; overflow: hidden; position: relative; }
-.pg-track { display: flex; gap: 40px; padding: 0 10vw; will-change: transform; }
-.pg-track img { height: 60vh; width: auto; object-fit: cover; border-radius: 20px; opacity: 0.9; transition: opacity 0.4s; flex-shrink: 0; }
+/* ── PHOTO GRID (Marquee) ── */
+#photo-grid { background: var(--dark); padding: 80px 0; overflow: hidden; border-top: 1px solid var(--white-dim); }
+.pg-track { display: flex; gap: 40px; width: fit-content; will-change: transform; }
+.pg-track img { height: 350px; width: auto; object-fit: cover; border-radius: 20px; opacity: 0.9; transition: opacity 0.4s; flex-shrink: 0; }
 .pg-track img:hover { opacity: 1; }
 
 /* Glowing Map Elements */
@@ -296,8 +295,11 @@ footer {
   .logo-item { padding: 20px 0; }
   
   .world-top { grid-template-columns: 1fr; gap: 32px; }
-  #map-wrap { height: 75vh; } /* Much taller map on mobile */
-  #map-svg { preserveAspectRatio: xMidYMid slice; } /* Fill the container */
+  #map-wrap { height: 450px; } 
+  #map-svg { 
+    transform: scale(2.4) translateY(20px); 
+    transform-origin: 50% 50%; 
+  }
   
   footer { flex-direction: column; gap: 20px; text-align: center; }
 }
@@ -387,15 +389,20 @@ footer {
 
 <!-- PHOTO GRID -->
 <div id="photo-grid">
-  <div class="pg-container">
-    <div class="pg-track" id="photo-track">
-      <img src="uploads/kirk-spencer-web.jpg" alt="Kirk Spencer">
-      <img src="uploads/concert1.jpg" alt="Concert">
-      <img src="uploads/concert2.jpg" alt="Concert">
-      <img src="uploads/concert3.jpg" alt="Concert">
-      <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
-      <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
-    </div>
+  <div class="pg-track" id="photo-track">
+    <img src="uploads/kirk-spencer-web.jpg" alt="Kirk Spencer">
+    <img src="uploads/concert1.jpg" alt="Concert">
+    <img src="uploads/concert2.jpg" alt="Concert">
+    <img src="uploads/concert3.jpg" alt="Concert">
+    <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
+    <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
+    <!-- Duplicate for loop -->
+    <img src="uploads/kirk-spencer-web.jpg" alt="Kirk Spencer">
+    <img src="uploads/concert1.jpg" alt="Concert">
+    <img src="uploads/concert2.jpg" alt="Concert">
+    <img src="uploads/concert3.jpg" alt="Concert">
+    <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
+    <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
   </div>
 </div>
 
@@ -607,20 +614,15 @@ gsap.to('.hero-body', {
   y: -60, opacity: 0
 });
 
-// ── PHOTO GRID SIDE-SCROLL ──
+// ── PHOTO GRID MARQUEE ──
 const track = document.getElementById('photo-track');
 if(track) {
+  const w = track.scrollWidth / 2;
   gsap.to(track, {
-    scrollTrigger: {
-      trigger: '#photo-grid',
-      start: 'top top',
-      end: () => `+=${track.scrollWidth}`,
-      pin: true,
-      scrub: 1,
-      invalidateOnRefresh: true
-    },
-    x: () => -(track.scrollWidth - window.innerWidth),
-    ease: 'none'
+    x: -w,
+    duration: 40,
+    ease: "none",
+    repeat: -1
   });
 }
 
