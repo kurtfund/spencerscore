@@ -147,11 +147,32 @@ body::before {
 .svc-list-item { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white-muted); padding-left: 16px; position: relative; }
 .svc-list-item::before { content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 1px; background: var(--gold); }
 
-/* ── PHOTO GRID (Marquee) ── */
-#photo-grid { background: var(--dark); padding: 80px 0; overflow: hidden; border-top: 1px solid var(--white-dim); }
-.pg-track { display: flex; gap: 40px; width: fit-content; will-change: transform; }
-.pg-track img { height: 350px; width: auto; object-fit: cover; border-radius: 20px; opacity: 0.9; transition: opacity 0.4s; flex-shrink: 0; }
-.pg-track img:hover { opacity: 1; }
+/* ── PHOTO GRID (Interactive) ── */
+#photo-grid { background: var(--dark); padding: 80px 0; overflow: hidden; border-top: 1px solid var(--white-dim); position: relative; }
+.pg-track { 
+  display: flex; gap: 32px; padding: 0 56px; overflow-x: auto; 
+  scroll-behavior: smooth; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; 
+  scrollbar-width: none; 
+}
+.pg-track::-webkit-scrollbar { display: none; }
+.pg-track img { height: 400px; width: auto; object-fit: cover; border-radius: 12px; scroll-snap-align: start; flex-shrink: 0; }
+
+.pg-nav { position: absolute; bottom: 40px; right: 56px; display: flex; gap: 12px; z-index: 10; }
+.pg-arrow { 
+  width: 48px; height: 48px; border: 1px solid var(--white-dim); border-radius: 50%; 
+  display: flex; align-items: center; justify-content: center; cursor: pointer; 
+  transition: all 0.3s; background: rgba(19,18,16,0.5); backdrop-filter: blur(10px);
+}
+.pg-arrow:hover { background: var(--gold); border-color: var(--gold); }
+.pg-arrow svg { width: 20px; height: 20px; fill: var(--white); transition: fill 0.3s; }
+.pg-arrow:hover svg { fill: var(--dark); }
+
+@media (max-width: 768px) {
+  .pg-track { padding: 0 24px; gap: 16px; }
+  .pg-track img { height: 280px; }
+  .pg-nav { right: 24px; bottom: 20px; }
+  .pg-arrow { width: 40px; height: 40px; }
+}
 
 /* Glowing Map Elements */
 .glow-map { filter: drop-shadow(0 0 12px rgba(184,144,74,0.6)); }
@@ -396,13 +417,10 @@ footer {
     <img src="uploads/concert3.jpg" alt="Concert">
     <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
     <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
-    <!-- Duplicate for loop -->
-    <img src="uploads/kirk-spencer-web.jpg" alt="Kirk Spencer">
-    <img src="uploads/concert1.jpg" alt="Concert">
-    <img src="uploads/concert2.jpg" alt="Concert">
-    <img src="uploads/concert3.jpg" alt="Concert">
-    <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
-    <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
+  </div>
+  <div class="pg-nav">
+    <div class="pg-arrow" id="pg-prev"><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></div>
+    <div class="pg-arrow" id="pg-next"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></div>
   </div>
 </div>
 
@@ -614,16 +632,27 @@ gsap.to('.hero-body', {
   y: -60, opacity: 0
 });
 
-// ── PHOTO GRID MARQUEE ──
+// ── PHOTO GRID INTERACTIVE ──
 const track = document.getElementById('photo-track');
+const nextBtn = document.getElementById('pg-next');
+const prevBtn = document.getElementById('pg-prev');
+
 if(track) {
-  const w = track.scrollWidth / 2;
-  gsap.to(track, {
-    x: -w,
-    duration: 40,
+  nextBtn.onclick = () => track.scrollBy({ left: window.innerWidth * 0.4, behavior: 'smooth' });
+  prevBtn.onclick = () => track.scrollBy({ left: -window.innerWidth * 0.4, behavior: 'smooth' });
+
+  // Auto-play (4x faster)
+  let loop = gsap.to(track, {
+    scrollLeft: track.scrollWidth - track.clientWidth,
+    duration: 12,
     ease: "none",
-    repeat: -1
+    repeat: -1,
+    yoyo: true,
+    paused: false
   });
+
+  track.addEventListener('mousedown', () => loop.pause());
+  track.addEventListener('touchstart', () => loop.pause());
 }
 
 // ── REVEALS ──
