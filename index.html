@@ -316,11 +316,14 @@ footer {
   .logo-item { padding: 20px 0; }
   
   .world-top { grid-template-columns: 1fr; gap: 32px; }
-  #map-wrap { height: 400px; border: none; } 
+  #map-wrap { height: auto; border: none; aspect-ratio: 1600/620; } 
   #map-svg { 
-    transform: scale(1.6) translateX(-40px); /* Better balance to show LA and India */
-    transform-origin: 50% 50%; 
+    transform: none; 
+    width: 100%; height: auto;
   }
+  
+  #map-svg .cc-name { font-size: 14px !important; }
+  #map-svg .cc-venue { font-size: 10px !important; }
   
   footer { flex-direction: column; gap: 20px; text-align: center; }
 }
