@@ -147,12 +147,12 @@ body::before {
 .svc-list-item { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white-muted); padding-left: 16px; position: relative; }
 .svc-list-item::before { content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 1px; background: var(--gold); }
 
-/* ── PHOTO GRID ── */
-#photo-grid { background: var(--dark); padding: 80px 56px; overflow: hidden; border-top: 1px solid var(--white-dim); }
-.pg-track { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; }
-.pg-track::-webkit-scrollbar { display: none; }
-.pg-track img { height: 320px; width: auto; object-fit: cover; border-radius: 16px; opacity: 0.85; transition: opacity 0.4s, transform 0.4s; cursor: pointer; flex-shrink: 0; }
-.pg-track img:hover { opacity: 1; transform: scale(1.02); }
+/* ── PHOTO GRID (Side Scroller) ── */
+#photo-grid { background: var(--dark); padding: 0; overflow: hidden; border-top: 1px solid var(--white-dim); }
+.pg-container { height: 100vh; display: flex; align-items: center; overflow: hidden; position: relative; }
+.pg-track { display: flex; gap: 40px; padding: 0 10vw; will-change: transform; }
+.pg-track img { height: 60vh; width: auto; object-fit: cover; border-radius: 20px; opacity: 0.9; transition: opacity 0.4s; flex-shrink: 0; }
+.pg-track img:hover { opacity: 1; }
 
 /* Glowing Map Elements */
 .glow-map { filter: drop-shadow(0 0 12px rgba(184,144,74,0.6)); }
@@ -296,7 +296,8 @@ footer {
   .logo-item { padding: 20px 0; }
   
   .world-top { grid-template-columns: 1fr; gap: 32px; }
-  #map-wrap { aspect-ratio: 1/1.5; height: 500px; } /* Taller map on mobile */
+  #map-wrap { height: 75vh; } /* Much taller map on mobile */
+  #map-svg { preserveAspectRatio: xMidYMid slice; } /* Fill the container */
   
   footer { flex-direction: column; gap: 20px; text-align: center; }
 }
@@ -386,13 +387,15 @@ footer {
 
 <!-- PHOTO GRID -->
 <div id="photo-grid">
-  <div class="pg-track" id="photo-track">
-    <img src="uploads/kirk-spencer-web.jpg" alt="Kirk Spencer">
-    <img src="uploads/concert1.jpg" alt="Concert">
-    <img src="uploads/concert2.jpg" alt="Concert">
-    <img src="uploads/concert3.jpg" alt="Concert">
-    <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
-    <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
+  <div class="pg-container">
+    <div class="pg-track" id="photo-track">
+      <img src="uploads/kirk-spencer-web.jpg" alt="Kirk Spencer">
+      <img src="uploads/concert1.jpg" alt="Concert">
+      <img src="uploads/concert2.jpg" alt="Concert">
+      <img src="uploads/concert3.jpg" alt="Concert">
+      <img src="uploads/Ilaiyaraaja_jeff-181025-1098.jpg" alt="Concert">
+      <img src="uploads/Ilaiyaraaja_jeff-181025-1129.jpg" alt="Concert">
+    </div>
   </div>
 </div>
 
@@ -604,11 +607,22 @@ gsap.to('.hero-body', {
   y: -60, opacity: 0
 });
 
-// ── PHOTO GRID PARALLAX ──
-gsap.to('#photo-track', {
-  scrollTrigger: { trigger: '#photo-grid', start: 'top bottom', end: 'bottom top', scrub: 1 },
-  x: -250, ease: 'none'
-});
+// ── PHOTO GRID SIDE-SCROLL ──
+const track = document.getElementById('photo-track');
+if(track) {
+  gsap.to(track, {
+    scrollTrigger: {
+      trigger: '#photo-grid',
+      start: 'top top',
+      end: () => `+=${track.scrollWidth}`,
+      pin: true,
+      scrub: 1,
+      invalidateOnRefresh: true
+    },
+    x: () => -(track.scrollWidth - window.innerWidth),
+    ease: 'none'
+  });
+}
 
 // ── REVEALS ──
 gsap.utils.toArray('.rev-dark').forEach(el => {
