@@ -37,7 +37,7 @@
   --ease: cubic-bezier(0.16,1,0.3,1);
 }
 
-html { scroll-behavior: auto; }
+html { scroll-behavior: smooth; }
 body { background: var(--dark); color: var(--white); font-family: var(--sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
 /* Grain */
@@ -275,7 +275,7 @@ footer {
     <li><a href="#credits">Projects</a></li>
     <li><a href="#world">Global</a></li>
   </ul>
-  <a href="mailto:spencer@scoreandstage.com" class="nav-cta">Get in Touch</a>
+  <a href="#cta" class="nav-cta">Get in Touch</a>
 </nav>
 
 <!-- HERO -->
@@ -467,8 +467,11 @@ footer {
 <section id="cta">
   <p class="cta-tag rev-light">Start a Conversation</p>
   <h2 class="cta-h rev-light">Let's Build<br><em>Something Great.</em></h2>
-  <p class="cta-sub rev-light">Reach out at <a href="mailto:spencer@scoreandstage.com">spencer@scoreandstage.com</a></p>
-  <a href="mailto:spencer@scoreandstage.com" class="cta-btn rev-light">Contact Spencer, Score and Stage</a>
+  <p class="cta-sub rev-light">Reach out via email or connect directly on WhatsApp.</p>
+  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 24px;" class="rev-light">
+    <a href="mailto:spencer@scoreandstage.com" class="cta-btn">Email Us</a>
+    <a href="https://wa.me/message/EMDLXDNH2QIOA1" target="_blank" class="cta-btn" style="background: #25D366; color: white; border: none; padding: 16px 32px;">Chat on WhatsApp</a>
+  </div>
 </section>
 
 <!-- FOOTER -->
