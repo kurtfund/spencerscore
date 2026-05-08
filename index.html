@@ -257,12 +257,34 @@ body::before {
 
 /* ── FOOTER ── */
 footer {
-  background: var(--dark); padding: 32px 56px;
+  background: var(--dark); padding: 80px 56px 40px;
   border-top: 1px solid var(--white-dim);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px;
+  margin-bottom: 80px;
+}
+.footer-col h4 {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; font-weight: 600;
+}
+.footer-brand .footer-logo { margin-bottom: 20px; }
+.footer-brand .footer-logo img { height: 60px; filter: invert(1); opacity: 0.9; }
+.footer-tagline { font-family: var(--serif); font-size: 24px; font-weight: 500; color: var(--white); line-height: 1.2; margin-bottom: 16px; }
+.footer-cities { font-size: 11px; color: var(--white-muted); letter-spacing: 0.05em; line-height: 1.6; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a { color: var(--white-muted); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid var(--white-dim); padding-top: 32px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.footer-logo { font-family: var(--serif); font-size: 14px; letter-spacing: 0.08em; color: var(--gold); font-weight: 600; }
-.footer-copy { font-size: 10px; color: var(--white-muted); letter-spacing: 0.06em; }
+.footer-copy { font-size: 11px; color: var(--white-muted); letter-spacing: 0.06em; }
+
+/* ── SUB SERVICE ── */
+.svc-sub { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--white-dim); }
+.svc-sub-title { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--gold); margin-bottom: 12px; }
+.svc-sub-body { font-size: 14px; line-height: 1.7; color: var(--white-muted); font-weight: 300; max-width: 440px; }
 
 /* ── TWEAKS ── */
 #tweaks-panel {
@@ -325,7 +347,11 @@ footer {
   #map-svg .cc-name { font-size: 14px !important; }
   #map-svg .cc-venue { font-size: 10px !important; }
   
-  footer { flex-direction: column; gap: 20px; text-align: center; }
+  footer { text-align: center; padding: 60px 24px 32px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 48px; margin-bottom: 60px; }
+  .footer-brand .footer-logo img { height: 50px; }
+  .footer-links { align-items: center; }
+  .footer-bottom { flex-direction: column; gap: 16px; }
 }
 </style>
 </head>
@@ -405,6 +431,10 @@ footer {
         <div class="svc-list-item">Film & TV Scoring</div>
         <div class="svc-list-item">Commercial & Advertising</div>
         <div class="svc-list-item">Cross-Cultural Orchestration</div>
+      </div>
+      <div class="svc-sub">
+        <h4 class="svc-sub-title">Global Mobility & Artist Visas</h4>
+        <p class="svc-sub-body">Navigating international borders shouldn't stop the music. We provide specialized, white-glove visa processing and immigration facilitation for international artists and ensembles performing in India. Our service offers completely transparent pricing, separating mandatory consular fees from our dedicated agency service, ensuring your talent gets from the studio to the stage without delay.</p>
       </div>
     </div>
   </div>
@@ -538,6 +568,7 @@ footer {
   <h2 class="cta-h rev-light">Let's Build<br><em>Something Great.</em></h2>
   <p class="cta-sub rev-light">Reach out via email or connect directly on WhatsApp.</p>
   <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 24px;" class="rev-light">
+    <a href="https://calendar.app.google/e1tYkCLzg1E9SDiw5" target="_blank" class="cta-btn" style="background: var(--gold); color: var(--dark);">Book a Consultation</a>
     <a href="mailto:spencer@scoreandstage.com" class="cta-btn">Email Us</a>
     <a href="https://wa.me/message/EMDLXDNH2QIOA1" target="_blank" class="cta-btn" style="padding: 16px 32px;">Chat on WhatsApp</a>
   </div>
@@ -545,8 +576,33 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo"><img src="uploads/spencerscoreandstage-logo1.png" alt="Spencer, Score and Stage" style="height: 90px; filter: invert(1); opacity: 0.7;"></div>
-  <div class="footer-copy">© 2026 Spencer, Score and Stage. All rights reserved.</div>
+  <div class="footer-grid">
+    <div class="footer-col footer-brand">
+      <div class="footer-logo"><img src="uploads/spencerscoreandstage-logo1.png" alt="Spencer, Score and Stage"></div>
+      <p class="footer-tagline">Orchestrating Ambition at World Scale.</p>
+      <p class="footer-cities">London · Chennai · Bangalore · Dubai · Czech · Los Angeles</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul class="footer-links">
+        <li><a href="#intro">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#credits">Projects</a></li>
+        <li><a href="#world">Global</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul class="footer-links">
+        <li><a href="mailto:spencer@scoreandstage.com">Email Us</a></li>
+        <li><a href="https://wa.me/message/EMDLXDNH2QIOA1" target="_blank">WhatsApp</a></li>
+        <li><a href="https://calendar.app.google/e1tYkCLzg1E9SDiw5" target="_blank">Book a Call</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Spencer, Score and Stage. All rights reserved.</div>
+  </div>
 </footer>
 
 <!-- TWEAKS -->
